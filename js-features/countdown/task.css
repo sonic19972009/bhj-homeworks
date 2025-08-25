@@ -1,0 +1,9 @@
+#download {
+  display: none;
+}
+
+#timer {
+  display: inline-block;
+  width: 65px;
+  text-align: right;
+}

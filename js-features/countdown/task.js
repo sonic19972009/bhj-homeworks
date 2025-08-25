@@ -1,18 +1,23 @@
 'use strict';
 
 const timer = document.getElementById('timer');
+let time = parseInt(timer.textContent, 10);
 
-let time = timer.textContent;
+const formatTime = (seconds) => {
+  const h = Math.floor(seconds / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
+  const s = seconds % 60;
+  return `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+}
 
-const formatTime = new Date();
-formatTime.setTime(time * 1000 + formatTime.getTimezoneOffset() * 60000);
+timer.textContent = formatTime(time);
 
 const addText = function() {
   time--;
-  if (time) {
-    formatTime.setTime(formatTime.getTime() - 1000);
-    timer.textContent = formatTime.toLocaleTimeString('ru');
-  } else {
+  if (time >= 0) {
+    timer.textContent = formatTime(time);
+  }
+  if (time === 0) {
     clearInterval(timerID);
     document.getElementById('status').textContent = 'Вы победили в конкурсе!';
     document.getElementById('download').click();
