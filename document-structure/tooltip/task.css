@@ -3,8 +3,11 @@
 }
 
 .has-tooltip {
+  position: relative;
+  display: inline-block;
   color: #000;
   background: yellow;
+  cursor: pointer;
 }
 
 .has-tooltip:hover {
@@ -12,12 +15,14 @@
 }
 
 .tooltip {
-  position: fixed;
+  position: absolute;
   display: none;
   background: black;
   padding: 5px;
   border-radius: 5px;
   color: #fff;
+  white-space: nowrap;
+  z-index: 100;
 }
 
 .tooltip_active {
