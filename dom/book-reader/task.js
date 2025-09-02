@@ -1,57 +1,50 @@
-const bookContent = document.querySelector('.book__content');
-const fontSize = document.body.querySelectorAll("a.font-size");
-let bookContentClass = 0;
-for (let i = 0; i < fontSize.length; i++) {
-    fontSize[i].addEventListener("click", function () {
-        event.preventDefault();
-        for (const botom of fontSize) {
-            if (botom.className.includes('font-size_active')) {
-                botom.classList.remove('font-size_active');
-            }
-        }
-        this.classList.add('font-size_active');
-        console.log(this)
-        if (bookContent.className.includes(bookContentClass)) {
-            bookContent.classList.remove(bookContentClass);
-        }
-        bookContentClass = this.classList[1];
+const book = document.getElementById('book');
+const sizeLinks = document.querySelectorAll('.book__control_font-size .font-size');
 
-        if (this.className.includes('font-size_small') || this.className.includes('font-size_big')) {
-            bookContent.classList.add(this.classList[1])
-        }
-    })
-}
-const colorText = document.body.querySelectorAll(".book__control_color a.color");
+sizeLinks.forEach(link => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    sizeLinks.forEach(l => l.classList.remove('font-size_active'));
+    link.classList.add('font-size_active');
+    book.classList.remove('book_fs-small', 'book_fs-big');
+    const size = link.dataset.size;
+    if (size === 'small') {
+      book.classList.add('book_fs-small');
+    } else if (size === 'big') {
+      book.classList.add('book_fs-big');
+    }
+  });
+});
 
-for (let i = 0; i < colorText.length; i++) {
-    colorText[i].addEventListener("click", function () {
-        for (const botom of colorText) {
-            if (botom.className.includes('color_active')) {
-                botom.classList.remove('color_active');
-            }
-        }
-        this.classList.add('color_active');
-        if(this.hasAttribute('data-color')){
-            bookContent.style.color = this.dataset.color;
-        } else {
-            bookContent.style.color = '';
-        }  
-    })
+function setActive(links, current) {
+  links.forEach(l => l.classList.remove('color_active'));
+  current.classList.add('color_active');
 }
-const colorBack = document.body.querySelectorAll(".book__control_background a.color");
 
-for (let i = 0; i < colorBack.length; i++) {
-    colorBack[i].addEventListener("click", function () {
-        for (const botom of colorBack) {
-            if (botom.className.includes('color_active')) {
-                botom.classList.remove('color_active');
-            }
-        }
-        this.classList.add('color_active');
-        if(this.hasAttribute('data-color')){
-            bookContent.style.background = this.dataset.color;
-        } else {
-            bookContent.style.background = '';
-        }
-    })
-}
+const textColorLinks = document.querySelectorAll('.book__control_color .color');
+
+textColorLinks.forEach(link => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    setActive(textColorLinks, link);
+    book.classList.remove('book_color-black', 'book_color-gray', 'book_color-whitesmoke');
+    const color = link.dataset.textColor;
+    if (color) {
+      book.classList.add(`book_color-${color}`);
+    }
+  });
+});
+
+const bgColorLinks = document.querySelectorAll('.book__control_background .color');
+
+bgColorLinks.forEach(link => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    setActive(bgColorLinks, link);
+    book.classList.remove('book_bg-black', 'book_bg-gray', 'book_bg-white');
+    const color = link.dataset.bgColor;
+    if (color) {
+      book.classList.add(`book_bg-${color}`);
+    }
+  });
+});
